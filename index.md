@@ -6,6 +6,6 @@ When I am not working (job or class) I am usually doing one of the following:
 - Tending to my flock of chickens
 - Home improvement projects
 
-![NC State](https://commons.wikimedia.org/wiki/File:NC_State_University_brick_logo.svg)
+![NC State](https://brand.ncsu.edu/img/downloads/logo-05.jpg)
 
 **Email:** <dadambro@ncsu.edu>
