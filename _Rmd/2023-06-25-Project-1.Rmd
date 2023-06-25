@@ -1,0 +1,45 @@
+---
+title: "Project 1"
+author: "Damon D'Ambrosio"
+date: "2023-06-25"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Project 1
+
+## What I did
+
+For my project, I chose to revisit an aspect of my childhood and utilize the Pokemon data API, [PokeAPI](https://pokeapi.co/). Even as a kid, I was always interested in some of the "data" associated with the Pokemon games, even if it was a real superficial interest (e.g., "this Pokemon is 7 inches taller than me!"). Aside from tidbits like Pokemon height and weight, there is a good amount of data related to the actual gameplay, namely each Pokemon's "base stats," which determines how well they will do in battle, which is the overall point of the game.
+
+Now that I'm a bit older and capable of analysis of some sort, I thought it was interesting to actually take a good look at some of this. For this project, I did a little research on how the Pokemon games have changed since I was a kid, and discovered a big modification to the base stats of each original Pokemon to help with gameplay balance. Exploring this change further and deriving some variables to understand what impact this stat change had on each individual Pokemon was the most interesting part of this project for me.
+
+## Function-specific challenges
+
+Going into the project, I had some ideas as to the type of data I wanted to query from the API, and how I might want to explore it. The first concern was figuring out exactly how to connect to and query the API. Fortunately, that was a bit was a little easier than expected. Although it took some trial and error, I was able to figure out the method by which to extract the desired information. From there, I did have to refresh my knowledge a bit on how to extract specific elements from various R objects; prior to this course (i.e., when I was "self-taught" in R), I had grown into a habit of always using the `dataframe$column.name` notation for finding things, all the while being blind to the exact structure of the various R objects. I have found the notations we have learned (e.g., `dataframe[1]`) to be a lot more efficient, especially when column names get long, and offer a lot more flexibility when writing functions. In all, the most challenging function to write was `pokemon.lookup`.
+
+I wrote `pokemon.lookup` with the intention of feeding it to `lapply` to generate a report with the information for multiple Pokemon. During that process, I thought of the idea for the `pokemon.vector` function. For whatever reason (perhaps because I had thought about it a lot in advance), `pokemon.vector` was the easiest and most straightforward function to write.
+
+The `gen1.correction` function was a litte less straightforward. I knew I had to implement type changes and add in the Generation I "Special" stat to each Pokemon's record given the context of the exploratory analysis I wanted to do. Unfortunately, I could not find this "Special" stat within the API. As such, I ended up creating it as a vector within the function. The API *does* have some information concerning Pokemon typing in prior generations. I initially tried to figure out a way to access this information and use some conditional logic to automate this process, but I never got a good feel of how to do this in an efficient manner that didn't involve doubling the number of calls to the API and necessitating very complex logic statements. As such, this function is overall a little more "hard-coded" than I would like it to be.
+
+The `pokemon.batch.report` function came together pretty smoothly, as I had verified ahead of time that `pokemon.lookup` and `lapply` would play together nicely; finishing up this wrapper function was a matter of adding in some conditional logic to incorporate `pokemon.vector` and `gen1.correction`. I did hit a couple of snags figuring out how to pass `...` arguments in the `pokemon.batch.report` call to its helper functions, but was able to resolve this after reviewing the lectures again.
+
+## What I would do differently next time
+
+I'm overall happy with how my approach went, but could definitely think of a few things I would do differently on a similar project:
+
+The first thing is establishing a better understanding of exactly what information is available in a particular API before planning out an analysis. I had committed to wanting to explore the Generation I "Special" stat almost immediately upon reading the .pdf for the project and seeing "Pokemon" as an option, only to find partway through my workflow that such data technically did not exist in the API. Although I was able to find a workaround, I will in the future explore the API first.
+
+The second thing is being better with Git and Github. I wanted to test some things in the early going, but ended up pushing an improperly named .md file and overall making a mess. Although I improved as I continued to pull, commit, and push, I still was messier than I would have liked. This includes the end of the project, where I referred to something as a "final" commit, then decided mere minutes later that I didn't like how a figure looked. Lesson learned- never refer to a commit as "final." My apologies to Dr. Osborne for having several more "commits" than I really needed to. Getting more and more comfortable with Git and Github is still a work in progress for me, but I feel I'm headed in the right direction.
+
+The final thing I would do differently, which I alluded to earlier in this post, would be making functions like `gen1.correction` with less hard coding. It worked out okay in this particular instance, but if I were to revisit this function in the future, I would like to figure out a way to better "automate" it through querying the API for some of the information that is currently coded into it. Instead of being a function that specifically "corrects" for Generation I, I would envision it as a function that could "correct" for any Generation based on user input, and be coded in a way to continually access the latest information available in PokeAPI.
+
+## Conclusion and links
+
+Even with some of the challenges, I overall enjoyed seeing this come together, and feel I learned a lot about R, Rmarkdown, and Github in the process. Links to the project page and repo are below:
+
+- [Project page](https://dadambro.github.io/project-1/)
+- [Repo](https://github.com/dadambro/project-1)
