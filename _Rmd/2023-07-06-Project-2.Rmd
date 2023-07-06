@@ -1,0 +1,38 @@
+---
+title: "Project 2"
+author: "Damon D'Ambrosio"
+date: "`r Sys.Date()`"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## What I would do differently
+
+Overall, I thought Project 2 went smoothly. I had a good partner who was easy to work with, so things came together nicely. A couple of things I would do differently next time:
+
+- My partner and I gravitate towards different naming conventions in our R programming. I prefer `using.periods.to.denote.spaces`, while she seemed to prefer `CamelCase`. She made the first major commit, and when I was adding to it, I started off using my preferred convention with the idea to clean this up towards the end. In hindsight, it would've been more efficient to follow her lead from the outset. It also caused me to reflect on my normal naming conventions, because they tend to be pretty long, and this hampers overall efficiency, especially when objects must be called multiple times.
+
+- Similar to Project 1, I ran into a couple of issues where something would appear to render nicely in RStudio, but not look quite right once pushed to Github as a page. With this project, wherein rendering multiple random forest models can take a bit of time, my old strategy of making small changes, knitting, making more changes, knitting again, etc., was not viable. I need to do more research to get a bit more comfortable with Github pages.
+
+## The most difficult part
+
+Looking at the project requirements was initially overwhelming, but it came together smoothly once we started working on it. While training models with `caret` and extracting various fit metrics seems straightforward enough, I am still working on conceptualizing exactly what these various models are doing. This does not necessarily impact my ability to complete assignments for the class, but it is something I would like to understand better moving forward. Towards the end of my graduate school tenure, "machine learning" was becoming a hot topic in the department, so it is nice to have some understanding of exactly what that is now.
+
+## The big takeaways
+
+- It is nice to have a good partner in group projects. I've been burned before during my academic career on projects like this, and I was very happy that this instance was not an example to add to that list.
+- Github is a powerful tool for collaboration. I kind of experienced that with Project 1, but seeing how it works with multiple contributors reinforced that.
+- R is really, really powerful and really, really cool. (This has been a common takeaway throughout the course). At work, I am working on a project that requires the use of SAS, which was my go-to programming language. I now find myself wishing SAS had some of R's functionality.
+- Implementing some type of parallel computing will be important moving forward. While my work laptop did okay with rendering the files for this project, my dinky home PC setup took a bit to churn through the Random Forest training. Parallel computing on that particular machine may be a lost cause, but I definitely see its benefits.
+
+As an aside, my dinky home PC runs a Linux OS, and while I'm not a hardcore open source guy, I do always enjoy finding ways for Linux to do actual work, and do what I can to avoid Windows in general. I made a point to setup Git and RStudio on this machine for this project, and I was happy to see things work nicely (albeit a bit slowly towards the end). I did a little further research on parallel computing with R/RStudio in the context of using caret, and it seems like Linux might be a bit more amenable to this kind of stuff versus Windows. However, it seems there are some parallel computing things that won't work on Windows; given the collaborative nature of this product, I was a little leary ofaccidentally implementing something that would not work on a Windows machine. I will be interested in researching this a bit further.
+
+## Links
+
+Links to the repo and project page are below:
+
+- [Project page](https://dadambro.github.io/project-2C/)
+- [Repo](https://github.com/dadambro/project-2C)
