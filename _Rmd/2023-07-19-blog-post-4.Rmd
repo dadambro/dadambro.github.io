@@ -1,0 +1,86 @@
+---
+title: "Machine learning"
+author: "Damon D'Ambrosio"
+date: "`r Sys.Date()`"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(caret)
+library(randomForest)
+library(knitr)
+library(httr)
+library(jsonlite)
+```
+
+## The most interesting machine learning method for me
+
+I feel that random forests are the most interesting method of machine learning. Briefly, random forests require creating multiple, independent decision trees using a randomly selected subset of possible predictors. The numerous trees (i.e., "forest") are then "polled" to make a decision regarding a prediction, with the idea of "majority rules."
+
+Relative to some other methods, like boosted trees, I like how the random forest is a little more resistant to overfitting to "noise" in a dataset. I also like that there are only a couple of tuning parameters one can work with. However, at least on my lowly personal computer, the random forest models can take a while to run :).
+
+Below is a random forest model running on some data related to what I am working on for Project 3. The model attempts to predict a Pokemon's "type" based on its base stats:
+
+## Random forest
+
+First, I will create a dataset. The code for the function used here, and its helpers, can be found on my [Project 1](https://dadambro.github.io/project-1/) page.
+
+```{r data_setup}
+#Create a dataset with all 1010 Pokemon and their base stats using the functions I created in Project 1
+myData <- pokemon.batch.report(1:1010)
+
+#Now add a binary variable denoting whether or not a Pokemon has a primary or secondary type of "bug"
+myData <- myData %>% mutate(isBug = if_else(type1 == "bug" | type2 == "bug", 1, 0, 0))
+
+#Remove unnecessary columns
+myData <- myData %>% select(hp:isBug)
+
+#Set isBug as a factor
+myData$isBug <- as.factor(myData$isBug)
+myData$isBug <- relevel(myData$isBug, ref = "1")
+```
+
+Now to set up the test and training datasets:
+
+```{r training_test}
+set.seed(80)
+
+trainIndex <- createDataPartition(myData$isBug, p = 0.8, list = FALSE)
+
+myTrain <- myData[trainIndex,]
+myTest <- myData[-trainIndex,]
+```
+
+
+Now to train the random forest model. I will constrain the tuning grid to use `mtry` values between 1 and 5, as there are 6 possible predictors, and using all 6 is technically "bagging":
+
+```{r randomForest_model}
+randomForestFit <- train(isBug ~ ., data = myTrain, 
+                  method = "rf",
+                  preProcess = c("center", "scale"),
+                  trControl = trainControl(method = "repeatedcv", number = 5, repeats = 3),
+                  tuneGrid = data.frame(mtry = 1:5))
+```
+
+Check the best `mtry` value:
+
+```{r check_mtry}
+randomForestFit$bestTune
+```
+
+Now to run on the test data:
+
+```{r randomForest_test}
+randomForestPredict <- predict(randomForestFit, newdata = myTest)
+
+x <- confusionMatrix(randomForestPredict, myTest$isBug)
+print(x)
+```
+
+The random forest model had an accuracy of **`r x[3]$overall[1]`** on the test data set. The highest accuracy it obtained on the training data set was **`r max(randomForestFit$results$Accuracy)`**.
+
+Superficially, it seems the model is pretty accurate. However, I think this might be an artifact of there only being 92 out of 1010 Pokemon with either their primary or secondary typing being "bug." Assuming I am interpreting everything correctly, similar accuracy would be obtained by simply guessing `0` for each Pokemon, as you would correctly "predict" 918 Pokemon by doing this.
+
+Perhaps some of the other types will be more interesting. I will see as Project 3 continues to unfold.
